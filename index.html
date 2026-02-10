@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NUSCC Hints</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f7fa;
+    }
+    .card {
+      background: white;
+      padding: 40px 36px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+      width: 420px;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #003d7c;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover { background: #002a55; }
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+    .hidden { display: none; }
+    .hint {
+      background: #f1f4f8;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 12px;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: slideIn 0.4s forwards;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .slash {
+      text-decoration: line-through;
+      color: #999;
+    }
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="intro">
+  <h1>Do you really want to see the hints?</h1>
+  <button onclick="startHints()">Yes, show me</button>
+</div>
+
+<div class="card hidden" id="hintsCard">
+  <h1>NUSCC Hint Panel</h1>
+  <div id="hintContainer"></div>
+  <button id="nextBtn" onclick="showNextHint()">Show next hint</button>
+</div>
+
+<script>
+  const hints = [
+    "Hint 1: The words are all split into two separate pieces. The ones with an apostrophe (') are a single word.",
+    "Hint 2: Every two words are separated by consonants and vowels. But which letter is true, filler, or just a marker is not necessarily set.",
+    "Hint 3: <strong>AHOLLI ETOFV = HLL and EO</strong><br>The first word has vowels as fillers and the second word has meaningful letters which act as markers.<br><br><span class='slash'>A</span>H<span class='slash'>O</span>LL<span class='slash'>I</span> → the slashed letters are fillers.<br>ETOFV contains meaningful letters you must connect with other words.",
+    "Hint 4: <strong><span class='slash'>A</span>H<span class='slash'>O</span>LL<span class='slash'>I</span> ETOFV</strong><br>Consonants after a vowel indicate the position of that vowel in the word.<br><br>ONE–O, TWO–T, THREE–TH, FOUR–F, FIVE–FV, SIX–S, SEVEN–SV, EIGHT–E, NINE–N.<br><br>Vowels are A E I O U (Y included). Therefore ETOFV = E in position two and O in position five → <strong>HELLO</strong>."
+  ];
+
+  let currentHint = 0;
+
+  function startHints() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("hintsCard").classList.remove("hidden");
+    showNextHint();
+  }
+
+  function showNextHint() {
+    if (currentHint < hints.length) {
+      const hintBox = document.createElement("div");
+      hintBox.className = "hint";
+      hintBox.innerHTML = hints[currentHint];
+      document.getElementById("hintContainer").appendChild(hintBox);
+      currentHint++;
+
+      if (currentHint === hints.length) {
+        document.getElementById("nextBtn").disabled = true;
+        document.getElementById("nextBtn").textContent = "All hints revealed";
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
